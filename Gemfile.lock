@@ -36,6 +36,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  rainbow
   rake
   rspec
   rubocop
