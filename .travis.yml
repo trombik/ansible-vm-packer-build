@@ -1,0 +1,11 @@
+---
+language: ruby
+rvm:
+  - 2.2
+
+# Use the new container infrastructure
+sudo: false
+
+script:
+  # run rubocop
+  - bundle exec rubocop
