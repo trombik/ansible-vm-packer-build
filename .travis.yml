@@ -9,4 +9,4 @@ sudo: false
 script:
   # run rubocop
   - bundle exec rubocop
-  - bundle exec take test:iso_url
+  - bundle exec rake test:iso_url
