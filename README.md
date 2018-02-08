@@ -22,6 +22,29 @@ play in local virtual environment, specifically:
 The project provides not only means to build reproducible images, also means
 to verify the results by written specs.
 
+## Support policy
+
+As described in the Purposes, platforms in the project are primary targets of
+my `ansible-role-*`.  The targeted platforms are:
+
+* FreeBSD
+* OpenBSD
+* Ubuntu
+* CentOS
+
+A platform release remains in the repository as long as the image is able to
+built, even when the release is no longer officially supported.
+
+A platform release will be removed from the repository when:
+
+* The installation resource of the release is not available (ISO image is not
+  available)
+* The build fails due to external factors (package repository does not support
+  the release)
+
+The project support officially _deprecated_ releases just for development
+purpose only.
+
 ## Usage
 
 Choose a directory to keep vendor files. Here, `vendor` in the project
