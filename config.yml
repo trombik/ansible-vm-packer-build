@@ -1,0 +1,21 @@
+---
+
+provider:
+  - virtualbox-iso
+box:
+  - name: freebsd-10.3-amd64
+    version: 1.0.0
+  - name: freebsd-11.1-amd64
+    version: 1.0.0
+  - name: ubuntu-14.04-amd64
+    version: 1.0.0
+  - name: ubuntu-16.04-amd64
+    version: 1.0.0
+  - name: openbsd-6.0-amd64
+    version: 1.2.0
+  - name: openbsd-6.1-amd64
+    version: 1.5.0
+  - name: openbsd-6.2-amd64
+    version: 1.0.0
+  - name: centos-7.3-x86_64
+    version: 1.2.0
