@@ -1,4 +1,4 @@
-# Building virtual machine images with packer
+# Building virtual machine images for `ansible` with packer
 
 ## Purposes
 
@@ -149,6 +149,8 @@ Removes all `.box` files.
 
 ## When in trouble
 
+### A VM locks up during installation
+
 When a guest locks up, i.e. you cannot stop it, the following commands stop
 the VM.
 
@@ -165,3 +167,22 @@ VBoxManage startvm packer-openbsd-6.0-amd64 --type emergencystop
 ```
 
 The disks and files are not removed. You need to remove them manually.
+
+### FreeBSD host and `aio` issue
+
+This issue applies to virtualbox-ose-5.2.2, probably earlier versions.
+
+FreeBSD is not a supported _host_ OS by `virtualbox`. When a _guest_ OS issues
+lots of I/O, the OS returns `E_AGAIN`, and the `virtualbox` does not handle
+the error properly. See issue
+[168298](https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=168298) and issue
+[212128](https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=212128).
+
+On my local machine, the following `sysctl(8)` values work for me. YMMV.
+
+```
+vfs.aio.max_aio_queue=8192
+vfs.aio.max_aio_queue_per_proc=4096
+vfs.aio.max_aio_per_proc=128
+vfs.aio.max_buf_aio=64
+```
