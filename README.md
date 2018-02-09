@@ -1,14 +1,5 @@
 # Building virtual machine images with packer
 
-## Rationales
-
-To develop `ansible` roles, virtual machines are required to test roles.
-Official virtual machine images are publicly available, but they are plain
-default installations. It is possible to use them in `ansible` role
-development, but installing required applications, such as `python` and
-`sudo`, is a major overhead. Creating virtual machine images ready for
-`ansible` play right after boot remove the overhead.
-
 ## Purposes
 
 This project aims at creating virtual machine images, suitable for `ansible`
@@ -21,6 +12,15 @@ play in local virtual environment, specifically:
 
 The project provides not only means to build reproducible images, also means
 to verify the results by written specs.
+
+## Rationales
+
+To develop `ansible` roles, virtual machines are required to test roles.
+Official virtual machine images are publicly available, but they are plain
+default installations. It is possible to use them in `ansible` role
+development, but installing required applications, such as `python` and
+`sudo`, is a major overhead. Creating virtual machine images ready for
+`ansible` play right after boot remove the overhead.
 
 ## Support policy
 
@@ -61,6 +61,35 @@ bundle install --path vendor
 * `packer`
 * `ruby`
 * `bundler`
+
+## Typical workflows
+
+### Fixing an issue in a VM image
+
+Here, it is assumed that you are going to fix an issue in FreeBSD 11.1 image.
+
+Add a spec example to one of spec files under
+[`spec`](https://github.com/trombik/ansible-vm-packer-build/tree/master/spec).
+See [Resource Types](http://serverspec.org/resource_types.html) if you are not
+familiar with `serverspec`.
+
+Modify the JSON file of the VM image.
+
+```
+vim freebsd-11.1-amd64.json
+```
+
+Build the image.
+
+```
+bundle exec rake build:freebsd-11.1-amd64
+```
+
+After successful build, perform test on the image.
+
+```
+bundle exec rake test:spec:freebsd-11.1-amd64:virtualbox-iso
+```
 
 ## Targets
 
