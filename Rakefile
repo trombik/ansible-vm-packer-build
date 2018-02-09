@@ -84,7 +84,7 @@ namespace :test do
         namespace boxname do
           # an internal target to import box file
           task provider.to_sym do
-            box_filename = "#{boxname}-#{provider.gsub("-iso", "")}.box"
+            box_filename = "#{boxname}-#{provider.gsub('-iso', '')}.box"
             Bundler.with_clean_env do
               sh "vagrant box add --force --name #{canonical_box_name.shellescape} #{box_filename.shellescape}"
             end
@@ -101,7 +101,7 @@ namespace :test do
           # an internal target to boot a VM
           task provider.to_sym => ["test:import:#{boxname}:#{provider}"] do
             Bundler.with_clean_env do
-              vagrant_hostname = boxname.gsub(".", "_") + "-#{provider}"
+              vagrant_hostname = boxname.tr(".", "_") + "-#{provider}"
               sh "vagrant up #{vagrant_hostname.shellescape}"
             end
           end
@@ -120,12 +120,12 @@ namespace :test do
       end
     end
     desc "Run rspec on all VMs"
-    task :all => targets
+    task all: targets
 
     all_box_names.each do |boxname|
       namespace boxname do
         @config["provider"].each do |provider|
-          vagrant_hostname = "#{boxname.gsub(".", "_")}-#{provider}"
+          vagrant_hostname = "#{boxname.tr('.', '_')}-#{provider}"
           desc "Run rspec on #{boxname} #{provider}"
           task provider.to_sym => ["test:boot:#{boxname}:#{provider}"] do
             ENV["HOST"] = vagrant_hostname

@@ -1,6 +1,6 @@
 require "yaml"
 
-Vagrant.configure('2') do |config|
+Vagrant.configure("2") do |config|
   yaml = YAML.load_file("config.yml")
   images = yaml["box"].map { |b| Pathname(b["name"]) }
 
@@ -9,8 +9,8 @@ Vagrant.configure('2') do |config|
   end
 
   images.sort.each do |template|
-    name = template.basename('.json').to_s
-    escaped_name = name.gsub(/[.]/, '_')
+    name = template.basename(".json").to_s
+    escaped_name = name.gsub(/[.]/, "_")
 
     yaml["provider"].each do |provider|
       config.vm.define "#{escaped_name}-#{provider}" do |c|
