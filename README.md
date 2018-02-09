@@ -81,7 +81,58 @@ The `build` target builds one or more boxes.
 bundle exec rake build:openbsd-6.2-amd64
 ```
 
+### `test:all`
+
+Perform all tests.
+
+### `test:ci`
+
+Perform tests intended for CI environment.
+
+### `test:rubocop`
+
+Run `rubocop`.
+
 ### `test:iso_url`
 
 Test if all `iso_url` in all JSON files are available by requesting HTTP
 `HEAD` requests.
+
+### `test:spec:all`
+
+Imports all created `.box` files, boots a VM, and run `rspec`.
+
+### `test:spec:$BOXNAME:$PROVIDER`
+
+Imports a created `.box` file, boots a VM, and run `rspec`. An example:
+
+```
+test:spec:freebsd-11.1-amd64:virtualbox-iso
+```
+
+### `test:clean:all`
+
+Destroys all the VM.
+
+### `test:clean:box`
+
+Removes all `.box` files.
+
+## When in trouble
+
+When a guest locks up, i.e. you cannot stop it, the following commands stop
+the VM.
+
+First, find out the VM name with `packer-` prefix.
+
+```
+VBoxManage list vms
+```
+
+Forcibly stop the VM with undocumented `--type emergencystop` option.
+
+```
+VBoxManage startvm packer-openbsd-6.0-amd64 --type emergencystop
+```
+
+The disks and files are not removed. You need to remove them manually.
