@@ -47,6 +47,17 @@ namespace :build do
 end
 
 namespace :test do
+  desc "Run all tests"
+  task all: [:rubocop, :iso_url]
+
+  desc "Run all tests for CI environment"
+  task ci: [:rubocop, :iso_url]
+
+  desc "Run rubocop"
+  task :rubocop do
+    sh "rubocop"
+  end
+
   desc "Validate iso_url"
   task :iso_url do
     all_json.each do |j|

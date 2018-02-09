@@ -81,6 +81,18 @@ The `build` target builds one or more boxes.
 bundle exec rake build:openbsd-6.2-amd64
 ```
 
+### `test:all`
+
+Perform all tests.
+
+### `test:ci`
+
+Perform tests intended for CI environment.
+
+### `test:rubocop`
+
+Run `rubocop`.
+
 ### `test:iso_url`
 
 Test if all `iso_url` in all JSON files are available by requesting HTTP

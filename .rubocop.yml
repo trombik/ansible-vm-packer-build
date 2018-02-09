@@ -32,6 +32,8 @@ Metrics/BlockLength:
     # these two exclude long blocks in `_spec.rb`
     - describe
     - context
+    # this exclude long namespace in Rakefile
+    - namespace
 
 Metrics/LineLength:
   Exclude:
