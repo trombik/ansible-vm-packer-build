@@ -76,4 +76,96 @@ namespace :test do
       end
     end
   end
+
+  namespace :import do
+    all_box_names.each do |boxname|
+      canonical_box_name = "trombik/test-#{boxname}"
+      @config["provider"].each do |provider|
+        namespace boxname do
+          # an internal target to import box file
+          task provider.to_sym do
+            box_filename = "#{boxname}-#{provider.gsub("-iso", "")}.box"
+            Bundler.with_clean_env do
+              sh "vagrant box add --force --name #{canonical_box_name.shellescape} #{box_filename.shellescape}"
+            end
+          end
+        end
+      end
+    end
+  end
+
+  namespace :boot do
+    all_box_names.each do |boxname|
+      namespace boxname do
+        @config["provider"].each do |provider|
+          # an internal target to boot a VM
+          task provider.to_sym => ["test:import:#{boxname}:#{provider}"] do
+            Bundler.with_clean_env do
+              vagrant_hostname = boxname.gsub(".", "_") + "-#{provider}"
+              sh "vagrant up #{vagrant_hostname.shellescape}"
+            end
+          end
+        end
+      end
+    end
+  end
+
+  namespace :spec do
+    # test:spec:boxname:provider, test:spec:boxname:provider:clean
+    targets = []
+    all_box_names.each do |boxname|
+      @config["provider"].each do |provider|
+        targets << "test:spec:#{boxname}:#{provider}"
+        targets << "test:spec:#{boxname}:#{provider}:clean"
+      end
+    end
+    desc "Run rspec on all VMs"
+    task :all => targets
+
+    all_box_names.each do |boxname|
+      namespace boxname do
+        @config["provider"].each do |provider|
+          vagrant_hostname = "#{boxname.gsub(".", "_")}-#{provider}"
+          desc "Run rspec on #{boxname} #{provider}"
+          task provider.to_sym => ["test:boot:#{boxname}:#{provider}"] do
+            ENV["HOST"] = vagrant_hostname
+            sh "rspec --pattern 'spec/**/*_spec.rb'"
+          end
+
+          namespace provider.to_sym do
+            task :clean do
+              Bundler.with_clean_env do
+                # XXX use `|| true` here as vagrant destroy exit with status 1
+                # https://github.com/hashicorp/vagrant/issues/9137
+                sh "vagrant destroy -f #{vagrant_hostname.shellescape} || true"
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+
+  namespace :clean do
+    desc "Destroy all VMs"
+    task :all do
+      Bundler.with_clean_env do
+        # XXX use `|| true` here as vagrant destroy exit with status 1
+        # https://github.com/hashicorp/vagrant/issues/9137
+        sh "vagrant destroy -f || true"
+      end
+    end
+
+    desc "Clean cached files"
+    # this target is intended for CI environments, where files in a repository
+    # are not removed after tests _and_ disk space is limited (Jenkins)
+    task :cache do
+      sh "rm -rf packer_cache/*"
+    end
+
+    desc "Clean box files"
+    task :box do
+      sh "rm -f *.box"
+    end
+  end
 end
