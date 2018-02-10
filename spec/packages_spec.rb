@@ -81,7 +81,7 @@ when "openbsd"
         its(:exit_status) { should eq 0 }
         its(:stderr) do
           # rubocop:disable Metrics/LineLength:
-          should eq(" [WARNING]: provided hosts list is empty, only localhost is available")
+          should eq(" [WARNING]: provided hosts list is empty, only localhost is available\n")
             .or(eq(" [WARNING]: provided hosts list is empty, only localhost is available. Note\nthat the implicit localhost does not match 'all'\n"))
           # rubocop:enable Metrics/LineLength:
         end
@@ -92,6 +92,20 @@ when "openbsd"
         it { should be_file }
         its(:content_as_json) { should include("name" => [p]) }
         its(:content_as_json) { should include("state" => "installed") }
+      end
+    end
+  end
+
+  kern_version = Specinfra.backend.run_command("sysctl -n kern.version").stdout
+  if os[:release].to_f >= 6.1
+    describe command("syspatch -c") do
+      if kern_version =~ /-current/
+        its(:exit_status) { should eq 1 }
+        its(:stderr) { should match(/^Unsupported release: \d+\.\d+-current/) }
+      else
+        its(:exit_status) { should eq 0 }
+        its(:stderr) { should eq "" }
+        its(:stdout) { should eq "" }
       end
     end
   end

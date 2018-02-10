@@ -525,3 +525,14 @@ sudo rm /etc/fstab.bak
 
 sudo sed -i'.bak' -e 's/\(ttyC[^0].*getty.*\)on /\1off/' /etc/ttys
 sudo rm /etc/ttys.bak
+
+if sysctl -n kern.version | head -n1 | grep -q -- -current ;then
+    # syspatch is not available for -current
+    :
+else
+    case `uname -r` in
+        6.[12])
+            sudo syspatch
+            ;;
+    esac
+fi
