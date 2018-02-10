@@ -530,9 +530,9 @@ if sysctl -n kern.version | head -n1 | grep -q -- -current ;then
     # syspatch is not available for -current
     :
 else
-    case `uname -r`
+    case `uname -r` in
         6.[12])
-            syspatch
+            sudo syspatch
             ;;
     esac
 fi
