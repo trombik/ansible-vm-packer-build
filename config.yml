@@ -17,5 +17,7 @@ box:
     version: 1.5.0
   - name: openbsd-6.2-amd64
     version: 1.0.0
+  - name: openbsd-snapshot-amd64
+    version: 2017.02.10
   - name: centos-7.3-x86_64
     version: 1.2.0

@@ -18,7 +18,7 @@ when "openbsd"
   if os[:release].to_f >= 6.0 && os[:release].to_f <= 6.2
     describe command "ansible --version" do
       its(:exit_status) { should eq 0 }
-      its(:stdout) { should match(/^ansible\s+2\.3\.2\.0\s+/) }
+      its(:stdout) { should match(/^ansible\s+2\.(?:3\.2\.0|4\.\d+\.\d+)\s+/) }
     end
   end
   if os[:release].to_f >= 6.1
@@ -79,7 +79,7 @@ when "openbsd"
     %w[openldap-server--%openldap jdk--%1.8 screen--shm postfix--sasl2-pgsql%stable].each do |p|
       describe command("ansible -C -t #{log_dir} -m openbsd_pkg -a 'name=#{p} state=installed' localhost") do
         its(:exit_status) { should eq 0 }
-        its(:stderr) { should eq " [WARNING]: provided hosts list is empty, only localhost is available\n" }
+        its(:stderr) { should eq(" [WARNING]: provided hosts list is empty, only localhost is available").or(eq(" [WARNING]: provided hosts list is empty, only localhost is available. Note\nthat the implicit localhost does not match 'all'\n")) }
       end
 
       describe file("#{log_dir}/localhost") do
