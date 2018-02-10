@@ -79,7 +79,12 @@ when "openbsd"
     %w[openldap-server--%openldap jdk--%1.8 screen--shm postfix--sasl2-pgsql%stable].each do |p|
       describe command("ansible -C -t #{log_dir} -m openbsd_pkg -a 'name=#{p} state=installed' localhost") do
         its(:exit_status) { should eq 0 }
-        its(:stderr) { should eq(" [WARNING]: provided hosts list is empty, only localhost is available").or(eq(" [WARNING]: provided hosts list is empty, only localhost is available. Note\nthat the implicit localhost does not match 'all'\n")) }
+        its(:stderr) do
+          # rubocop:disable Metrics/LineLength:
+          should eq(" [WARNING]: provided hosts list is empty, only localhost is available")
+            .or(eq(" [WARNING]: provided hosts list is empty, only localhost is available. Note\nthat the implicit localhost does not match 'all'\n"))
+          # rubocop:enable Metrics/LineLength:
+        end
       end
 
       describe file("#{log_dir}/localhost") do
