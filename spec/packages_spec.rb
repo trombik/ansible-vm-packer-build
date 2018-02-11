@@ -15,10 +15,11 @@ when "freebsd"
   end
 when "openbsd"
   # XXX RE_5_9 does not have the latest ansible yet
-  if os[:release].to_f >= 6.0 && os[:release].to_f <= 6.2
+  if os[:release].to_f >= 6.0
     describe command "ansible --version" do
       its(:exit_status) { should eq 0 }
-      its(:stdout) { should match(/^ansible\s+2\.(?:3\.2\.0|4\.\d+\.\d+)\s+/) }
+      its(:stderr) { should eq "" }
+      its(:stdout) { should match(/^ansible\s+2\.4\.\d+\.\d+/) }
     end
   end
   if os[:release].to_f >= 6.1
@@ -58,14 +59,6 @@ when "openbsd"
       it { should exist }
       it { should be_file }
       it { should be_mode os[:release].to_f >= 6.0 ? 755 : 555 }
-    end
-  end
-  if os[:release].to_f < 6.0
-    # Specify a package branch
-    describe file("/usr/local/lib/python2.7/site-packages/ansible/modules/extras/packaging/os/openbsd_pkg.py") do
-      it { should exist }
-      it { should be_file }
-      its(:content) { should match(/^#{Regexp.escape("# Specify a package branch (requires at least OpenBSD 6.0)")}$/) }
     end
   end
   if os[:release].to_f >= 6.0
