@@ -5,6 +5,8 @@ require "shellwords"
 require "uri"
 require "rainbow"
 require "net/http"
+require "vagrant_cloud"
+require "pry"
 
 @config_file = "config.yml"
 @config = YAML.load_file @config_file
@@ -79,7 +81,7 @@ namespace :test do
 
   namespace :import do
     all_box_names.each do |boxname|
-      canonical_box_name = "trombik/test-#{boxname}"
+      canonical_box_name = "#{@config['vagrant_cloud']['username']}/test-#{boxname}"
       @config["provider"].each do |provider|
         namespace boxname do
           # an internal target to import box file
@@ -166,6 +168,42 @@ namespace :test do
     desc "Clean box files"
     task :box do
       sh "rm -f *.box"
+    end
+  end
+end
+
+namespace :upload do
+  username = @config["vagrant_cloud"]["username"]
+  token = if ENV["VAGRANT_CLOUD_TOKEN"] || ENV["ATLAS_TOKEN"]
+            ENV["VAGRANT_CLOUD_TOKEN"] || ENV["ATLAS_TOKEN"]
+          elsif @config["vagrant_cloud"].key?("token")
+            @config["vagrant_cloud"]["token"]
+          end
+  raise "Access token is not defined either in config.yml, or environment variable VAGRANT_CLOUD_TOKEN" unless token
+  account = VagrantCloud::Account.new(username, token)
+  @config["provider"].map { |i| i.gsub("-iso", "") }.each do |provider|
+    desc "Upload all boxes"
+    task all: @config["box"].map { |b| "upload:#{provider}:#{b['name']}" }
+
+    @config["box"].each do |b|
+      desc "Upload #{b['name']}-#{provider}.box"
+      task "#{provider}:#{b['name']}" do
+        file = "#{b['name']}-#{provider}.box"
+        raise "file #{file} does not exist" unless File.exist?(file)
+        boxname = "ansible-#{b['name']}"
+        puts Rainbow("Ensuring box #{boxname} exist").green
+        box = account.ensure_box(boxname)
+        puts Rainbow("Ensuring version #{b['version']} exist").green
+        version = box.ensure_version(b["version"], b["description"])
+        pr = version.providers.select { |p| p.name == provider }.first
+        unless pr
+          puts Rainbow("Creating provider #{provider}").green
+          pr = version.create_provider(provider)
+        end
+        puts Rainbow("Uploading file #{file}").green
+        pr.upload_file(file)
+        puts Rainbow("Uploading #{file} completed").green
+      end
     end
   end
 end
