@@ -188,7 +188,7 @@ namespace :upload do
       task "#{provider}:#{b['name']}" do
         file = "#{b['name']}-#{provider}.box"
         raise "file #{file} does not exist" unless File.exist?(file)
-        raise "Access token is not defined either in config.yml, or environment variable VAGRANT_CLOUD_TOKEN" unless token
+        raise "Token is not defined either in config.yml, or environment variable VAGRANT_CLOUD_TOKEN" unless token
         account = VagrantCloud::Account.new(username, token)
         boxname = "ansible-#{b['name']}"
         puts Rainbow("Ensuring box #{boxname} exist").green
