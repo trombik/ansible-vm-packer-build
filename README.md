@@ -91,6 +91,19 @@ After successful build, perform test on the image.
 bundle exec rake test:spec:freebsd-11.1-amd64:virtualbox-iso
 ```
 
+After successful test, update `config.yml`:
+
+* Increase `version` number
+* Document `ansible` version in `description`
+* Document when the packages were updated (except OpenBSD releases)
+* Document other changes
+
+Upload the box.
+
+```
+rake upload:virtualbox:freebsd-11.1-amd64
+```
+
 ## Targets
 
 The whole build process is implemented by a `Rakefile`. Each task is
@@ -146,6 +159,22 @@ Destroys all the VM.
 ### `test:clean:box`
 
 Removes all `.box` files.
+
+### `upload:all`
+
+Uploads all boxes.
+
+Environment variable `VAGRANT_CLOUD_TOKEN` must be set.
+
+### `upload:$PROVIDER:$BOXNAME`
+
+Upload a box.
+
+Environment variable `VAGRANT_CLOUD_TOKEN` must be set.
+
+```
+rake upload:virtualbox:freebsd-11.1-amd64
+```
 
 ## When in trouble
 

@@ -1,23 +1,49 @@
 ---
+vagrant_cloud:
+  username: trombik
 
 provider:
   - virtualbox-iso
 box:
   - name: freebsd-10.3-amd64
-    version: 1.0.0
+    version: 1.0.1
+    description: |
+      * update packages on 2017/02/12
+      * ansible version 2.4.2.0
   - name: freebsd-11.1-amd64
-    version: 1.0.0
+    version: 1.0.1
+    description: |
+      * update packages on 2017/02/12
+      * ansible version 2.4.2.0
   - name: ubuntu-14.04-amd64
-    version: 1.0.0
+    version: 1.0.1
+    description: |
+      * update packages on 2017/02/12
+      * ansible version 2.4.3.0
   - name: ubuntu-16.04-amd64
-    version: 1.0.0
+    version: 1.0.1
+    description: |
+      * update packages on 2017/02/12
+      * ansible version 2.4.3.0
   - name: openbsd-6.0-amd64
-    version: 1.2.0
+    version: 1.2.1
+    description: |
+      * ansible version 2.4.3.0
   - name: openbsd-6.1-amd64
-    version: 1.5.0
+    version: 1.5.1
+    description: |
+      * ansible version 2.4.3.0
   - name: openbsd-6.2-amd64
-    version: 1.0.0
+    version: 1.0.1
+    description: |
+      * ansible version 2.4.3.0
   - name: openbsd-snapshot-amd64
     version: 2017.02.10
+    description: |
+      * update packages on 2017/02/10
+      * ansible version 2.4.3.0
   - name: centos-7.3-x86_64
     version: 1.2.0
+    description: |
+      * update packages on 2017/02/12
+      * ansible version 2.4.2.0
