@@ -179,8 +179,6 @@ namespace :upload do
           elsif @config["vagrant_cloud"].key?("token")
             @config["vagrant_cloud"]["token"]
           end
-  raise "Access token is not defined either in config.yml, or environment variable VAGRANT_CLOUD_TOKEN" unless token
-  account = VagrantCloud::Account.new(username, token)
   @config["provider"].map { |i| i.gsub("-iso", "") }.each do |provider|
     desc "Upload all boxes"
     task all: @config["box"].map { |b| "upload:#{provider}:#{b['name']}" }
@@ -190,6 +188,8 @@ namespace :upload do
       task "#{provider}:#{b['name']}" do
         file = "#{b['name']}-#{provider}.box"
         raise "file #{file} does not exist" unless File.exist?(file)
+        raise "Access token is not defined either in config.yml, or environment variable VAGRANT_CLOUD_TOKEN" unless token
+        account = VagrantCloud::Account.new(username, token)
         boxname = "ansible-#{b['name']}"
         puts Rainbow("Ensuring box #{boxname} exist").green
         box = account.ensure_box(boxname)
