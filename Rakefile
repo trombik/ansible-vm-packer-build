@@ -203,6 +203,9 @@ namespace :upload do
         puts Rainbow("Uploading file #{file}").green
         pr.upload_file(file)
         puts Rainbow("Uploading #{file} completed").green
+        puts Rainbow("Releasing version #{version.version}").green
+        version.release
+        puts Rainbow("Released").green
       end
     end
   end
