@@ -179,6 +179,7 @@ namespace :upload do
           elsif @config["vagrant_cloud"].key?("token")
             @config["vagrant_cloud"]["token"]
           end
+  # rubocop:disable Metrics/BlockLength
   @config["provider"].map { |i| i.gsub("-iso", "") }.each do |provider|
     desc "Upload all boxes"
     task all: @config["box"].map { |b| "upload:#{provider}:#{b['name']}" }
@@ -203,7 +204,11 @@ namespace :upload do
         puts Rainbow("Uploading file #{file}").green
         pr.upload_file(file)
         puts Rainbow("Uploading #{file} completed").green
+        puts Rainbow("Releasing version #{version.version}").green
+        version.release
+        puts Rainbow("Released").green
       end
     end
   end
+  # rubocop:enable Metrics/BlockLength
 end

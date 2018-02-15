@@ -109,7 +109,7 @@
     "cpus": "2",
     "disk_size": "40000",
     "headless": "false",
-    "iso_checksum": "458acbdb7dd3372c4cf51bceae1a84d0834036d6a8a76dbf7e97031be5124803",
+    "iso_checksum": "553b55ce4a460c2ac5473c85a6a332d0680a5a0422a3787912cc524b7931670e",
     "iso_checksum_type": "sha256",
     "memory": "512",
     "mirror": "https://fastly.cdn.openbsd.org/pub/OpenBSD",
