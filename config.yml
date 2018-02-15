@@ -38,9 +38,9 @@ box:
     description: |
       * ansible version 2.4.3.0
   - name: openbsd-snapshot-amd64
-    version: 2017.02.10
+    version: 2017.02.15
     description: |
-      * update packages on 2017/02/10
+      * update packages on 2017/02/15
       * ansible version 2.4.3.0
   - name: centos-7.3-x86_64
     version: 1.2.1
