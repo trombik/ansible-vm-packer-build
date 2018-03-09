@@ -1,7 +1,7 @@
 {
   "builders": [{
     "type": "qemu",
-    "iso_url": "{{user `mirror`}}/snapshots/amd64/install62.iso",
+    "iso_url": "{{user `mirror`}}/snapshots/amd64/install63.iso",
     "iso_checksum": "{{user `iso_checksum`}}",
     "iso_checksum_type": "{{user `iso_checksum_type`}}",
     "output_directory": "output-openbsd-snapshot-amd64-{{build_type}}",
@@ -30,12 +30,12 @@
   }, {
     "type": "virtualbox-iso",
     "guest_os_type": "OpenBSD_64",
-    "iso_url": "{{user `mirror`}}/snapshots/amd64/install62.iso",
+    "iso_url": "{{user `mirror`}}/snapshots/amd64/install63.iso",
     "iso_checksum": "{{user `iso_checksum`}}",
     "iso_checksum_type": "{{user `iso_checksum_type`}}",
     "output_directory": "output-openbsd-snapshot-amd64-{{build_type}}",
     "vm_name": "packer-openbsd-snapshot-amd64",
-    "hard_drive_interface": "scsi",
+    "hard_drive_interface": "sata",
     "disk_size": "{{user `disk_size`}}",
     "headless": "{{user `headless`}}",
     "http_directory": "http",
@@ -62,7 +62,7 @@
   }, {
     "type": "vmware-iso",
     "guest_os_type": "freebsd-64",
-    "iso_url": "{{user `mirror`}}/snapshots/amd64/install62.iso",
+    "iso_url": "{{user `mirror`}}/snapshots/amd64/install63.iso",
     "iso_checksum": "{{user `iso_checksum`}}",
     "iso_checksum_type": "{{user `iso_checksum_type`}}",
     "output_directory": "output-openbsd-snapshot-amd64-{{build_type}}",
@@ -109,7 +109,7 @@
     "cpus": "2",
     "disk_size": "40000",
     "headless": "false",
-    "iso_checksum": "585c9e497e558cfd66945774cabc46a5334c63042dc450bbacd1bb370086b0cb",
+    "iso_checksum": "e34038fbea374936f36f4598654f2ea83aead3dc05775a62984548c3f36e48b2",
     "iso_checksum_type": "sha256",
     "memory": "512",
     "mirror": "https://fastly.cdn.openbsd.org/pub/OpenBSD",
