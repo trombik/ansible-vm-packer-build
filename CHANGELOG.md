@@ -1,3 +1,9 @@
+## Release 1.3.0
+
+* 15f42a4 [bugfix][feature] generate descriptions automatically (#29)
+* 33e05bb update to OpenBSD 6.3-beta (#28)
+* 0c9087f Update OpenBSD snapshot (#27)
+
 ## Release 1.1.0
 
 * 556de31 [feature] implement upload target (#23)
