@@ -5,7 +5,10 @@ when "openbsd"
   describe command("mount -t ffs") do
     its(:exit_status) { should eq 0 }
     its(:stderr) { should eq "" }
-    its(:stdout) { should match(/^#{Regexp.escape("/dev/sd0")}/) }
+    its(:stdout) do
+      pending "SCSI causes disk stall on host OS"
+      should match(/^#{Regexp.escape("/dev/sd0")}/)
+    end
   end
 when "redhat"
   describe command("mount -t xfs") do
@@ -16,7 +19,7 @@ when "redhat"
 when "freebsd"
   describe command("mount -t ufs") do
     its(:exit_status) { should eq 0 }
-    its(:stdout) { should match(/^#{Regexp.escape("/dev/da0")}/) }
+    its(:stdout) { should match(/^#{Regexp.escape("/dev/")}a?da0/) }
     its(:stderr) { should eq "" }
   end
 when "ubuntu"

@@ -94,9 +94,6 @@ bundle exec rake test:spec:freebsd-11.1-amd64:virtualbox-iso
 After successful test, update `config.yml`:
 
 * Increase `version` number
-* Document `ansible` version in `description`
-* Document when the packages were updated (except OpenBSD releases)
-* Document other changes
 
 Upload the box.
 
@@ -215,3 +212,9 @@ vfs.aio.max_aio_queue_per_proc=4096
 vfs.aio.max_aio_per_proc=128
 vfs.aio.max_buf_aio=64
 ```
+
+Also, on some platforms, SATA disk device is chosen. On my 2018-03-08 CURRENT
+host OS, SCCI device makes the HOST freeze. It might be due to the issue
+above, or due to the underlying driver, nvme(4). Some have reported issues
+with the driver. See
+[211713](https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=211713).

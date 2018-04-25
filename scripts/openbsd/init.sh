@@ -42,7 +42,7 @@ if sysctl -n kern.version | head -n1 | grep -q -- -current ;then
     :
 else
     case `uname -r` in
-        6.[12])
+        6.[123])
             sudo syspatch
             ;;
     esac

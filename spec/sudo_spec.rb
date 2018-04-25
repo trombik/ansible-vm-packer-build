@@ -1,6 +1,5 @@
 require "spec_helper"
 
-cmd = ""
 cmd = case os[:family]
       when "freebsd"
         "su -m root -c 'sudo echo'"

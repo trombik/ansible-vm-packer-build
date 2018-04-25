@@ -7,6 +7,7 @@ require "rainbow"
 require "net/http"
 require "vagrant_cloud"
 require "pry"
+require "open3"
 
 @config_file = "config.yml"
 @config = YAML.load_file @config_file
@@ -137,9 +138,7 @@ namespace :test do
           namespace provider.to_sym do
             task :clean do
               Bundler.with_clean_env do
-                # XXX use `|| true` here as vagrant destroy exit with status 1
-                # https://github.com/hashicorp/vagrant/issues/9137
-                sh "vagrant destroy -f #{vagrant_hostname.shellescape} || true"
+                sh "vagrant destroy -f #{vagrant_hostname.shellescape}"
               end
             end
           end
@@ -152,9 +151,7 @@ namespace :test do
     desc "Destroy all VMs"
     task :all do
       Bundler.with_clean_env do
-        # XXX use `|| true` here as vagrant destroy exit with status 1
-        # https://github.com/hashicorp/vagrant/issues/9137
-        sh "vagrant destroy -f || true"
+        sh "vagrant destroy -f"
       end
     end
 
@@ -190,12 +187,37 @@ namespace :upload do
         file = "#{b['name']}-#{provider}.box"
         raise "file #{file} does not exist" unless File.exist?(file)
         raise "Token is not defined either in config.yml, or environment variable VAGRANT_CLOUD_TOKEN" unless token
+        # get ansible version and ctime of the image, build description for
+        # the release
+        ansible_version = nil
+        vm_name = "#{b['name'].tr('.', '_')}-#{provider}-iso"
+        begin
+          Bundler.with_clean_env do
+            sh "vagrant up #{vm_name.shellescape}"
+            cmd = "vagrant ssh #{vm_name.shellescape} -- 'ansible --version | head -n1'"
+            o, e, s = Open3.capture3(cmd)
+            raise "failed to run command `#{cmd}`: #{e}" unless s.success?
+            ansible_version = o.chomp
+            puts Rainbow("ansible --version: #{ansible_version}").green
+          end
+        ensure
+          Bundler.with_clean_env do
+            sh "vagrant destroy -f #{vm_name}"
+          end
+        end
+        timestamp = File.ctime(file).strftime("%FT%T%z")
+        desc = format(
+          "* created on %<timestamp>s\n* %<ansible_version>s\n",
+          timestamp: timestamp,
+          ansible_version: ansible_version
+        )
+
         account = VagrantCloud::Account.new(username, token)
         boxname = "ansible-#{b['name']}"
         puts Rainbow("Ensuring box #{boxname} exist").green
         box = account.ensure_box(boxname)
         puts Rainbow("Ensuring version #{b['version']} exist").green
-        version = box.ensure_version(b["version"], b["description"])
+        version = box.ensure_version(b["version"], desc)
         pr = version.providers.select { |p| p.name == provider }.first
         unless pr
           puts Rainbow("Creating provider #{provider}").green
