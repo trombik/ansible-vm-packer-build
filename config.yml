@@ -14,13 +14,13 @@ box:
   - name: ubuntu-16.04-amd64
     version: 1.0.2
   - name: openbsd-6.0-amd64
-    version: 1.2.2
+    version: 1.2.3
   - name: openbsd-6.1-amd64
-    version: 1.5.2
+    version: 1.5.3
   - name: openbsd-6.2-amd64
-    version: 1.0.2
+    version: 1.0.3
   - name: openbsd-6.3-amd64
-    version: 1.0.0
+    version: 1.0.1
   - name: openbsd-snapshot-amd64
     version: 2017.03.09
   - name: centos-7.3-x86_64
