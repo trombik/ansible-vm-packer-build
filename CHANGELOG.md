@@ -1,3 +1,7 @@
+## Release 1.4.0
+
+*cdf88b0 [feature] update to ansible 2.5.1 on OpenBSD except snapshot (#31)
+
 ## Release 1.3.0
 
 * 15f42a4 [bugfix][feature] generate descriptions automatically (#29)
