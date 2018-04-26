@@ -19,7 +19,7 @@ when "openbsd"
     describe command "ansible --version" do
       its(:exit_status) { should eq 0 }
       its(:stderr) { should eq "" }
-      its(:stdout) { should match(/^ansible\s+2\.4\.\d+\.\d+/) }
+      its(:stdout) { should match(/^ansible\s+2\.5\.\d+(\.\d+)?/) }
     end
   end
   if os[:release].to_f >= 6.1

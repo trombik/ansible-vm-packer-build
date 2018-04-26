@@ -18,7 +18,7 @@ sudo ln -sf /usr/local/bin/pydoc2.7  /usr/local/bin/pydoc
 
 # install latest ansible
 case `uname -r` in
-    6.[012])
+    6.[0123])
         ftp -o - https://github.com/trombik/ansible-ports-openbsd/archive/master.tar.gz | tar -zxvf -
         (cd ansible-ports-openbsd-master && sudo sh install.sh)
         rm -rf ansible-ports-openbsd-master
