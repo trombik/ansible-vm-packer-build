@@ -10,4 +10,10 @@ when "ubuntu"
       its(:content) { should match(/^APT::Periodic::Enable\s+"0";/) }
     end
   end
+  describe file("/etc/apt/apt.conf.d/10retry") do
+    it { should be_exist }
+    it { should be_file }
+    it { should be_mode 644 }
+    its(:content) { should match(/^Acquire::Retries\s+"10";/) }
+  end
 end
