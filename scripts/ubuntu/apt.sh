@@ -15,11 +15,12 @@ if [ "$ubuntu_version" != '14.04' ]; then
   sudo tee -a /etc/apt/apt.conf.d/10disable-periodic <<EOF
 APT::Periodic::Enable "0";
 EOF
-  # Retry when fetching files fails
-  sudo tee -a /etc/apt/apt.conf.d/10retry <<EOF
+fi
+
+# Retry when fetching files fails
+sudo tee -a /etc/apt/apt.conf.d/10retry <<EOF
 Acquire::Retries "10";
 EOF
-fi
 
 sudo apt-get update
 
