@@ -13,6 +13,8 @@ box:
     version: 1.0.2
   - name: ubuntu-16.04-amd64
     version: 1.0.2
+  - name: ubuntu-18.04-amd64
+    version: 1.0.0
   - name: openbsd-6.0-amd64
     version: 1.2.3
   - name: openbsd-6.1-amd64
