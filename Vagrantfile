@@ -4,10 +4,6 @@ Vagrant.configure("2") do |config|
   yaml = YAML.load_file("config.yml")
   images = yaml["box"].map { |b| Pathname(b["name"]) }
 
-  7.times do
-    config.vm.network :private_network, type: :dhcp
-  end
-
   images.sort.each do |template|
     name = template.basename(".json").to_s
     escaped_name = name.gsub(/[.]/, "_")
