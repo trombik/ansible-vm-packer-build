@@ -7,6 +7,8 @@ provider:
 box:
   - name: freebsd-10.3-amd64
     version: 1.0.2
+  - name: freebsd-10.4-amd64
+    version: 1.0.0
   - name: freebsd-11.1-amd64
     version: 1.0.2
   - name: ubuntu-14.04-amd64
