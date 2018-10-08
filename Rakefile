@@ -187,6 +187,7 @@ namespace :upload do
         file = "#{b['name']}-#{provider}.box"
         raise "file #{file} does not exist" unless File.exist?(file)
         raise "Token is not defined either in config.yml, or environment variable VAGRANT_CLOUD_TOKEN" unless token
+
         # get ansible version and ctime of the image, build description for
         # the release
         ansible_version = nil
@@ -197,6 +198,7 @@ namespace :upload do
             cmd = "vagrant ssh #{vm_name.shellescape} -- 'ansible --version | head -n1'"
             o, e, s = Open3.capture3(cmd)
             raise "failed to run command `#{cmd}`: #{e}" unless s.success?
+
             ansible_version = o.chomp
             puts Rainbow("ansible --version: #{ansible_version}").green
           end
