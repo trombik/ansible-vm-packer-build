@@ -14,9 +14,9 @@ cat <<EOF > /etc/resolv.conf
 nameserver 8.8.8.8
 EOF
 
-ASSUME_ALWAYS_YES=yes pkg install curl
-ASSUME_ALWAYS_YES=yes pkg install sudo
-ASSUME_ALWAYS_YES=yes pkg install python ansible rsync
+# `pkg install -y` does not work here. it always asks confirmation even with
+# `-y`
+ASSUME_ALWAYS_YES=yes pkg install pkg curl sudo
 
 interface=$(route get default | awk '/interface/ { print $2 }')
 cat <<EOF > /etc/rc.conf
