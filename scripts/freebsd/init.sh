@@ -19,6 +19,10 @@ EOF
 # XXX after FLAVORed ansible, `sysutils/` prefix is required.
 sudo pkg install -y python sysutils/ansible rsync
 
+# adjust date before freebsd-update. incorrect time causes freebsd-update to
+# log "expr: illegal option" to stderr, which causes a failure in tests
+sudo ntpdate -b pool.ntp.org
+
 case `uname -r` in
     10.3-*|11.1-*)
         # XXX when EoLed, freebsd-update exits with zero
