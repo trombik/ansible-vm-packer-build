@@ -1,3 +1,18 @@
+## Release 1.5.0
+
+* df90e7e bugfix: rubocop
+* 8b06f1f bugfix: update gems
+* 35d5040 bugfix: update ubuntu URLs
+* cb65c10 feature: update all boxes
+* 49f6e02 feature: add FreeBSD 11.2
+* 436ec04 bugfix: sync date before freebsd-update
+* 39f490e bugfix: use `sysutils/ansible` instead of `ansible` for FreeBSD
+* baea544 [feature] run freebsd-update (#37)
+* c5a48b3 [feature] update ansible 2.5.2 on OpenBSD
+* 7f85850 [feature] add FreeBSD 10.4
+* 73a7f2d [bugfix] rebuild CentOS 7, upgrading ansible  (#35)
+* ca1669f [feature] Add ubuntu 18.04 (#33)
+
 ## Release 1.4.0
 
 *cdf88b0 [feature] update to ansible 2.5.1 on OpenBSD except snapshot (#31)
