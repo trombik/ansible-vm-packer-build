@@ -18,7 +18,9 @@ when "freebsd"
   end
 
   describe command "freebsd-update --not-running-from-cron install" do
-    its(:exit_status) { should eq 1 }
+    # XXX deliverately ignore exit_status here because when the version is
+    # still supported, but no updates available, exit_status is zero.
+    # when the version is EOLed, exit_status is always 1.
     its(:stderr) { should eq "" }
     its(:stdout) { should match(/^No updates are available to install/) }
   end

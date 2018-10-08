@@ -1,6 +1,13 @@
 require "spec_helper"
 
-packages = %w[ansible rsync curl sudo]
+package_ansible = case os[:family]
+                  when "freebsd"
+                    "sysutils/ansible"
+                  else
+                    "ansible"
+                  end
+packages = %w[rsync curl sudo]
+packages << package_ansible
 
 packages.each do |p|
   describe package(p) do

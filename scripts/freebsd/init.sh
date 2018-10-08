@@ -13,8 +13,14 @@ ${fwcmd} check-state
 ${fwcmd} add 65000 pass all from any to any keep-state
 EOF
 
+# XXX install python first so that `/usr/local/bin/python` works. when python
+# is installed as a dependency of `ansible`, `/usr/local/bin/python$X.$Y`,
+# where $X and $Y is python version number, is installed.
+# XXX after FLAVORed ansible, `sysutils/` prefix is required.
+sudo pkg install -y python sysutils/ansible rsync
+
 case `uname -r` in
-    10.3-*)
+    10.3-*|11.1-*)
         # XXX when EoLed, freebsd-update exits with zero
         sudo freebsd-update --not-running-from-cron fetch || true
         ;;

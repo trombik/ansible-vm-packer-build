@@ -14,8 +14,7 @@ cat <<EOF > /etc/resolv.conf
 nameserver 8.8.8.8
 EOF
 
-ASSUME_ALWAYS_YES=yes pkg install curl
-ASSUME_ALWAYS_YES=yes pkg install sudo
+pkg -y install curl sudo
 
 interface=$(route get default | awk '/interface/ { print $2 }')
 cat <<EOF > /etc/rc.conf
