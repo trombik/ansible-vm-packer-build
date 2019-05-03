@@ -1,3 +1,13 @@
+## Release 1.6.0
+
+* c95fc50 feature: update all boxes
+* c160a44 bugfix: update Ubuntu 16.04 and 1804
+* 10d426b feature: introduce CentOS 7.4
+* 2bc8fc1 feature: introduce OpenBSD 6.4 and 6.5
+* eacd93e feature: introduce FreeBSD 12.0
+* 6374d09 bugfix: test python symlinks only on older releases
+* 0695a44 bugfix: adjust commands for latest OpenBSD releases
+
 ## Release 1.5.0
 
 * df90e7e bugfix: rubocop
