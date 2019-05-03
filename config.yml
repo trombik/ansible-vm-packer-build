@@ -5,19 +5,19 @@ vagrant_cloud:
 provider:
   - virtualbox-iso
 box:
-  - name: freebsd-10.4-amd64
-    version: 1.1.2
   - name: freebsd-11.2-amd64
-    version: 1.0.1
-  - name: ubuntu-14.04-amd64
-    version: 1.0.4
+    version: 1.1.0
+  - name: freebsd-12.0-amd64
+    version: 1.0.0
   - name: ubuntu-16.04-amd64
-    version: 1.0.4
+    version: 1.1.0
   - name: ubuntu-18.04-amd64
-    version: 1.0.1
-  - name: openbsd-6.2-amd64
-    version: 1.0.5
-  - name: openbsd-6.3-amd64
-    version: 1.0.3
+    version: 1.1.0
   - name: centos-7.3-x86_64
-    version: 1.2.4
+    version: 1.3.0
+  - name: centos-7.4-x86_64
+    version: 1.0.0
+  - name: openbsd-6.4-amd64
+    version: 1.0.0
+  - name: openbsd-6.5-amd64
+    version: 1.0.0
