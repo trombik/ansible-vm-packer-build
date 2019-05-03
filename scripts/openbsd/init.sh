@@ -11,17 +11,19 @@ EOF
 fi
 
 sudo pkg_add ansible rsync-- curl
-sudo ln -sf /usr/local/bin/python2.7 /usr/local/bin/python
-sudo ln -sf /usr/local/bin/python2.7-2to3 /usr/local/bin/2to3
-sudo ln -sf /usr/local/bin/python2.7-config /usr/local/bin/python-config
-sudo ln -sf /usr/local/bin/pydoc2.7  /usr/local/bin/pydoc
+if [ `uname -r` != 6.5 ]; then
+    sudo ln -sf /usr/local/bin/python2.7 /usr/local/bin/python
+    sudo ln -sf /usr/local/bin/python2.7-2to3 /usr/local/bin/2to3
+    sudo ln -sf /usr/local/bin/python2.7-config /usr/local/bin/python-config
+    sudo ln -sf /usr/local/bin/pydoc2.7  /usr/local/bin/pydoc
+fi
 
-# install latest ansible
+# install latest ansible on older versions
 case `uname -r` in
-    6.[0123])
-        ftp -o - https://github.com/trombik/ansible-ports-openbsd/archive/master.tar.gz | tar -zxvf -
-        (cd ansible-ports-openbsd-master && sudo sh install.sh)
-        rm -rf ansible-ports-openbsd-master
+6.[0123])
+    ftp -o - https://github.com/trombik/ansible-ports-openbsd/archive/master.tar.gz | tar -zxvf -
+    (cd ansible-ports-openbsd-master && sudo sh install.sh)
+    rm -rf ansible-ports-openbsd-master
         sudo rm -R /usr/ports/*
         ;;
 esac
@@ -41,9 +43,9 @@ if sysctl -n kern.version | head -n1 | grep -q -- -current ;then
     # syspatch is not available for -current
     :
 else
-    case `uname -r` in
-        6.[123])
-            sudo syspatch
-            ;;
-    esac
+    sudo syspatch
+    # run syspatch again. when syspatch has been updated, you need to run it
+    # again.
+    # "syspatch updated itself, run it again to install missing patches"
+    sudo syspatch
 fi
