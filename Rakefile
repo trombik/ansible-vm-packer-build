@@ -74,6 +74,10 @@ namespace :test do
           else
             puts Rainbow(res.message).red
             puts Rainbow(res.to_s).red
+            res.each_header do |h|
+              out = format("%<header>s: %<value>s", header: h, value: res[h])
+              puts Rainbow(out).red
+            end
             raise "#{u}: is not available"
           end
         end
