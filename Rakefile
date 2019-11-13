@@ -73,6 +73,7 @@ namespace :test do
             puts Rainbow(res.message).green
           else
             puts Rainbow(res.message).red
+            puts Rainbow(res.to_s).red
             raise "#{u}: is not available"
           end
         end
