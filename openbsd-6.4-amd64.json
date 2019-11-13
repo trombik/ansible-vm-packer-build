@@ -112,7 +112,7 @@
     "iso_checksum": "81833b79e23dc0f961ac5fb34484bca66386deb3181ddb8236870fa4f488cdd2",
     "iso_checksum_type": "sha256",
     "memory": "512",
-    "mirror": "https://fastly.cdn.openbsd.org/pub/OpenBSD/",
+    "mirror": "https://fastly.cdn.openbsd.org/pub/OpenBSD",
     "ssh_timeout": "60m"
   }
 }
