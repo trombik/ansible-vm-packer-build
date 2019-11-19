@@ -3,13 +3,6 @@
 set -e
 set -x
 
-# pkg.conf has been replaced with installurl since 6.1
-if [ `uname -r` == 5.9 -o `uname -r` == 6.0 ]; then
-    sudo tee /etc/pkg.conf <<EOF
-installpath = fastly.cdn.openbsd.org
-EOF
-fi
-
 sudo pkg_add ansible rsync-- curl
 if [ `uname -r` != 6.5 ]; then
     sudo ln -sf /usr/local/bin/python2.7 /usr/local/bin/python
