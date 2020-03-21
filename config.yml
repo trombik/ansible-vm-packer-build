@@ -16,6 +16,6 @@ box:
   - name: centos-7.4-x86_64
     version: 20200321
   - name: openbsd-6.5-amd64
-    version: 20191112
+    version: 20200321
   - name: openbsd-6.6-amd64
-    version: 20191119
+    version: 20200321
