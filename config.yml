@@ -10,7 +10,7 @@ box:
   - name: freebsd-12.0-amd64
     version: 20191112
   - name: freebsd-12.1-amd64
-    version: 20191119
+    version: 20200321
   - name: ubuntu-16.04-amd64
     version: 20191112
   - name: ubuntu-18.04-amd64
