@@ -4,7 +4,7 @@ set -e
 set -x
 
 cat <<EOF > /etc/installurl
-https://fastly.cdn.openbsd.org/pub/OpenBSD
+http://mirror.vdms.com/pub/OpenBSD
 EOF
 
 pkg_add sudo--
