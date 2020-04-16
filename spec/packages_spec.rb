@@ -33,3 +33,9 @@ when "openbsd"
     end
   end
 end
+
+describe command "python3 --version" do
+  its(:exit_status) { should eq 0 }
+  its(:stderr) { should eq "" }
+  its(:stdout) { should match(/^Python\s+3\./) }
+end
