@@ -17,7 +17,7 @@ EOF
 # is installed as a dependency of `ansible`, `/usr/local/bin/python$X.$Y`,
 # where $X and $Y is python version number, is installed.
 # XXX after FLAVORed ansible, `sysutils/` prefix is required.
-sudo pkg install -y python sysutils/ansible rsync
+sudo pkg install -y lang/python3 py37-ansible rsync
 
 # adjust date before freebsd-update. incorrect time causes freebsd-update to
 # log "expr: illegal option" to stderr, which causes a failure in tests

@@ -3,12 +3,18 @@
 set -e
 set -x
 
-sudo pkg_add ansible rsync-- curl
+python_package="python%3.7"
+case `uname -r` in
+    6.5)
+        python_package="python%3.6"
+        ;;
+esac
+
+sudo pkg_add ${python_package} ansible rsync-- curl
 if [ `uname -r` != 6.5 ]; then
-    sudo ln -sf /usr/local/bin/python2.7 /usr/local/bin/python
-    sudo ln -sf /usr/local/bin/python2.7-2to3 /usr/local/bin/2to3
-    sudo ln -sf /usr/local/bin/python2.7-config /usr/local/bin/python-config
-    sudo ln -sf /usr/local/bin/pydoc2.7  /usr/local/bin/pydoc
+    sudo ln -sf /usr/local/bin/python3.7 /usr/local/bin/python
+    sudo ln -sf /usr/local/bin/python3.7-config /usr/local/bin/python-config
+    sudo ln -sf /usr/local/bin/pydoc3.7  /usr/local/bin/pydoc
 fi
 
 # install latest ansible on older versions
