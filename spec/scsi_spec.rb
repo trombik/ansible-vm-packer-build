@@ -19,7 +19,7 @@ when "redhat"
 when "freebsd"
   describe command("mount -t ufs") do
     its(:exit_status) { should eq 0 }
-    its(:stdout) { should match(/^#{Regexp.escape("/dev/")}a?da0/) }
+    its(:stdout) { should match(/^#{Regexp.escape("/dev/")}(?:a?da0|vtbd0s1a)/) }
     its(:stderr) { should eq "" }
   end
 when "ubuntu"
