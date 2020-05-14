@@ -30,6 +30,12 @@ jobs:
           set -e
           sudo apt-get update
           sudo apt-get install -y qemu-system-x86 qemu-system-ppc unzip python3-virtualenv cloud-utils
+          sudo apt-get install -y bridge-utils dnsmasq-base ebtables libvirt-bin libvirt-dev qemu-kvm qemu-utils
+          wget https://releases.hashicorp.com/vagrant/2.2.9/vagrant_2.2.9_x86_64.deb
+          sudo dpkg -i vagrant_2.2.9_x86_64.deb
+          vagrant --version
+          vagrant plugin install vagrant-libvirt
+          sudo chmod go+rw /var/run/libvirt/libvirt-sock
           curl -O https://releases.hashicorp.com/packer/${{ matrix.packer_version }}/packer_${{ matrix.packer_version }}_linux_amd64.zip
           unzip packer_${{ matrix.packer_version }}_linux_amd64.zip
           chmod +x packer
