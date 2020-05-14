@@ -14,10 +14,6 @@ jobs:
       fail-fast: false
       matrix:
         target:
-          - fedora-30-x86_64-qemu
-          - fedora-31-x86_64-qemu
-          - fedora-32-x86_64-qemu
-          - fedora-31-ppc64le-qemu
           - fedora-32-ppc64le-qemu
         packer_version:
           - "1.5.5"
