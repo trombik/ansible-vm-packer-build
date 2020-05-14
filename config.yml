@@ -4,6 +4,7 @@ vagrant_cloud:
 
 provider:
   - virtualbox-iso
+  - qemu
 box:
   - name: freebsd-11.3-amd64
     version: 20200416
