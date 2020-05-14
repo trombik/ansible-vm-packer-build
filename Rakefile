@@ -102,7 +102,10 @@ namespace :test do
                                end
             box_filename = "#{boxname}-#{provider.gsub('-iso', '').gsub('qemu', 'libvirt')}.box"
             Bundler.with_clean_env do
-              sh "vagrant box add --force --provider #{vagrant_provider.shellescape} --name #{canonical_box_name.shellescape} #{box_filename.shellescape}"
+              sh format("vagrant box add --force --provider %<provider>s --name %<name>s %<file>s",
+                        provider: vagrant_provider.shellescape,
+                        name: canonical_box_name.shellescape,
+                        file: box_filename.shellescape)
             end
           end
         end
@@ -189,7 +192,6 @@ namespace :upload do
           elsif @config["vagrant_cloud"].key?("token")
             @config["vagrant_cloud"]["token"]
           end
-  # rubocop:disable Metrics/BlockLength
   @config["provider"].map { |i| i.gsub("-iso", "").gsub("qemu", "libvirt") }.each do |provider|
     desc "Upload all boxes"
     task all: @config["box"].map { |b| "upload:#{provider}:#{b['name']}" }
@@ -225,10 +227,6 @@ namespace :upload do
             sh "vagrant destroy -f #{vm_name}"
           end
         end
-        desc = format(
-          "* %<ansible_version>s\n",
-          ansible_version: ansible_version
-        )
 
         account = VagrantCloud::Account.new(username, token)
         boxname = "ansible-#{b['name']}"
@@ -237,7 +235,8 @@ namespace :upload do
         puts Rainbow("Ensuring version #{b['version']} exist").green
         begin
           version = box.ensure_version(b["version"])
-        rescue RestClient::UnprocessableEntity
+        rescue RestClient::UnprocessableEntity => e
+          raise e
         end
         pr = version.providers.select { |p| p.name == provider }.first
         unless pr
@@ -253,5 +252,4 @@ namespace :upload do
       end
     end
   end
-  # rubocop:enable Metrics/BlockLength
 end
