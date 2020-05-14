@@ -23,6 +23,10 @@ when "freebsd"
       it { should be_installed }
     end
   end
+
+  describe file "/usr/local/etc/pkg/repos/local.conf" do
+    it { should_not exist }
+  end
 when "openbsd"
   kern_version = Specinfra.backend.run_command("sysctl -n kern.version").stdout
   describe command("syspatch -c") do
