@@ -92,9 +92,17 @@ namespace :test do
         namespace boxname do
           # an internal target to import box file
           task provider.to_sym do
-            box_filename = "#{boxname}-#{provider.gsub('-iso', '')}.box"
+            vagrant_provider = case provider
+                               when "qemu"
+                                 "libvirt"
+                               when "virtualbox-iso"
+                                 "virtualbox"
+                               else
+                                 provider
+                               end
+            box_filename = "#{boxname}-#{provider.gsub('-iso', '').gsub('qemu', 'libvirt')}.box"
             Bundler.with_clean_env do
-              sh "vagrant box add --force --name #{canonical_box_name.shellescape} #{box_filename.shellescape}"
+              sh "vagrant box add --force --provider #{vagrant_provider.shellescape} --name #{canonical_box_name.shellescape} #{box_filename.shellescape}"
             end
           end
         end
@@ -182,7 +190,7 @@ namespace :upload do
             @config["vagrant_cloud"]["token"]
           end
   # rubocop:disable Metrics/BlockLength
-  @config["provider"].map { |i| i.gsub("-iso", "") }.each do |provider|
+  @config["provider"].map { |i| i.gsub("-iso", "").gsub("qemu", "libvirt") }.each do |provider|
     desc "Upload all boxes"
     task all: @config["box"].map { |b| "upload:#{provider}:#{b['name']}" }
 
@@ -196,7 +204,12 @@ namespace :upload do
         # get ansible version and ctime of the image, build description for
         # the release
         ansible_version = nil
-        vm_name = "#{b['name'].tr('.', '_')}-#{provider}-iso"
+        case provider
+        when "virtualbox"
+          vm_name = "#{b['name'].tr('.', '_')}-#{provider}-iso"
+        when "libvirt"
+          vm_name = "#{b['name'].tr('.', '_')}-qemu"
+        end
         begin
           Bundler.with_clean_env do
             sh "vagrant up #{vm_name.shellescape}"
@@ -212,10 +225,8 @@ namespace :upload do
             sh "vagrant destroy -f #{vm_name}"
           end
         end
-        timestamp = File.ctime(file).strftime("%FT%T%z")
         desc = format(
-          "* created on %<timestamp>s\n* %<ansible_version>s\n",
-          timestamp: timestamp,
+          "* %<ansible_version>s\n",
           ansible_version: ansible_version
         )
 
@@ -224,7 +235,10 @@ namespace :upload do
         puts Rainbow("Ensuring box #{boxname} exist").green
         box = account.ensure_box(boxname)
         puts Rainbow("Ensuring version #{b['version']} exist").green
-        version = box.ensure_version(b["version"], desc)
+        begin
+          version = box.ensure_version(b["version"])
+        rescue RestClient::UnprocessableEntity
+        end
         pr = version.providers.select { |p| p.name == provider }.first
         unless pr
           puts Rainbow("Creating provider #{provider}").green
