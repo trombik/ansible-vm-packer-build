@@ -30,12 +30,13 @@ jobs:
           curl -O https://releases.hashicorp.com/packer/${{ matrix.packer_version }}/packer_${{ matrix.packer_version }}_linux_amd64.zip
           unzip packer_${{ matrix.packer_version }}_linux_amd64.zip
           chmod +x packer
-          mv packer /usr/bin/
+          mkdir bin
+          mv packer bin/
           bundle install --path=vendor/bundle
       - name: try build
         shell: bash
         run: |
           set -e
-          bundle exec rake build:freebsd-12.1-amd64
+          env PATH=${PATH}:`pwd`/bin bundle exec rake build:freebsd-12.1-amd64
         env:
           VAGRANT_CLOUD_TOKEN: ${{ secrets.upload_token }}
