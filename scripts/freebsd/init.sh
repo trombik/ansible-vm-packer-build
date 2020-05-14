@@ -33,6 +33,7 @@ __EOF__
 sudo pkg install -y lang/python3 py37-ansible rsync
 sudo rm /usr/local/etc/pkg/repos/local.conf
 
+
 # adjust date before freebsd-update. incorrect time causes freebsd-update to
 # log "expr: illegal option" to stderr, which causes a failure in tests
 sudo ntpdate -b pool.ntp.org
