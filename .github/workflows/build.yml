@@ -1,0 +1,45 @@
+---
+# obtained from https://github.com/greg-hellings/packer-templates/blob/master/.github/workflows/build.yml
+name: Build
+
+on:
+  push: {}
+  schedule:
+    - cron: '29 23 * * 1'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - fedora-30-x86_64-qemu
+          - fedora-31-x86_64-qemu
+          - fedora-32-x86_64-qemu
+          - fedora-31-ppc64le-qemu
+          - fedora-32-ppc64le-qemu
+        packer_version:
+          - "1.5.5"
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+      - name: install dependencies
+        shell: bash
+        run: |
+          set -e
+          sudo apt-get update
+          sudo apt-get install -y qemu-system-x86 qemu-system-ppc unzip python3-virtualenv cloud-utils
+          curl -O https://releases.hashicorp.com/packer/${{ matrix.packer_version }}/packer_${{ matrix.packer_version }}_linux_amd64.zip
+          unzip packer_${{ matrix.packer_version }}_linux_amd64.zip
+          chmod +x packer
+          mv packer /usr/bin/
+          bundle install --path=vendor/bundle
+      - name: try build
+        shell: bash
+        run: |
+          set -e
+          bundle exec rake build:freebsd-12.1-amd64
+        env:
+          VAGRANT_CLOUD_TOKEN: ${{ secrets.upload_token }}
