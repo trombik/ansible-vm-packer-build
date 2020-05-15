@@ -41,11 +41,11 @@ jobs:
           chmod +x packer
           mkdir bin
           mv packer bin/
-          env PACKER_LOG=1 bundle install --path=vendor/bundle
+          bundle install --path=vendor/bundle
       - name: try build
         shell: bash
         run: |
           set -e
-          env PATH=${PATH}:`pwd`/bin bundle exec rake build:freebsd-12.1-amd64
+          env PATH=${PATH}:`pwd`/bin PACKER_LOG=1 bundle exec rake build:freebsd-12.1-amd64
         env:
           VAGRANT_CLOUD_TOKEN: ${{ secrets.upload_token }}
