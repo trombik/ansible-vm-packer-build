@@ -110,7 +110,7 @@
     "compression_level": "6",
     "cpus": "1",
     "disk_size": "40000",
-    "headless": "false",
+    "headless": "true",
     "iso_checksum": "aa9d34b458826486999ed3e872436b6712ae38cede5ea41de4ab923e3419d461",
     "iso_checksum_type": "sha256",
     "memory": "512",
