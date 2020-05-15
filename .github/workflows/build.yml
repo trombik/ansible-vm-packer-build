@@ -41,7 +41,7 @@ jobs:
           chmod +x packer
           mkdir bin
           mv packer bin/
-          bundle install --path=vendor/bundle
+          env PACKER_LOG=1 bundle install --path=vendor/bundle
       - name: try build
         shell: bash
         run: |
