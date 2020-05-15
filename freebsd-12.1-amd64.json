@@ -24,6 +24,7 @@
     "shutdown_command": "sudo poweroff",
     "qemuargs": [
       ["-m", "{{user `memory`}}"],
+      ["-display", "none"],
       ["-smp", "{{user `cpus`}}"]
     ]
   }, {
