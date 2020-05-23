@@ -1,0 +1,57 @@
+---
+# obtained from https://github.com/greg-hellings/packer-templates/blob/master/.github/workflows/build.yml
+name: Build
+
+on:
+  push: {}
+  schedule:
+    - cron: '29 23 * * 1'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - fedora-32-ppc64le-qemu
+        packer_version:
+          - "1.5.5"
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+      - name: install dependencies
+        shell: bash
+        run: |
+          set -e
+          sudo apt-get update
+          sudo apt-get install -y qemu-system-x86 qemu-system-ppc unzip python3-virtualenv cloud-utils
+          sudo apt-get install -y bridge-utils dnsmasq-base ebtables libvirt-bin libvirt-dev qemu-kvm qemu-utils
+          wget https://releases.hashicorp.com/vagrant/2.2.9/vagrant_2.2.9_x86_64.deb
+          sudo dpkg -i vagrant_2.2.9_x86_64.deb
+          vagrant --version
+          vagrant plugin install vagrant-libvirt
+          sudo chmod go+rw /var/run/libvirt/libvirt-sock
+          curl -O https://releases.hashicorp.com/packer/${{ matrix.packer_version }}/packer_${{ matrix.packer_version }}_linux_amd64.zip
+          unzip packer_${{ matrix.packer_version }}_linux_amd64.zip
+          chmod +x packer
+          mkdir bin
+          mv packer bin/
+          bundle install --path=vendor/bundle
+
+          sudo apt-get install "linux-headers-`uname -r`"
+          wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O - | sudo apt-key add -
+          sudo add-apt-repository -y "deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian `lsb_release -cs` contrib"
+          sudo apt-get update
+          sudo apt-get install virtualbox-6.1
+      - name: try build
+        shell: bash
+        run: |
+          set -e
+          env PATH=${PATH}:`pwd`/bin PACKER_LOG=1 bundle exec rake build:freebsd-12.1-amd64
+        env:
+          VAGRANT_CLOUD_TOKEN: ${{ secrets.upload_token }}

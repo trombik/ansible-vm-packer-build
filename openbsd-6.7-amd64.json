@@ -1,11 +1,11 @@
 {
   "builders": [{
     "type": "qemu",
-    "iso_url": "{{user `mirror`}}/6.6/amd64/install66.iso",
+    "iso_url": "{{user `mirror`}}/6.7/amd64/install67.iso",
     "iso_checksum": "{{user `iso_checksum`}}",
     "iso_checksum_type": "{{user `iso_checksum_type`}}",
-    "output_directory": "output-openbsd-6.6-amd64-{{build_type}}",
-    "vm_name": "packer-openbsd-6.6-amd64",
+    "output_directory": "output-openbsd-6.7-amd64-{{build_type}}",
+    "vm_name": "packer-openbsd-6.7-amd64",
     "disk_size": "{{user `disk_size`}}",
     "headless": "{{user `headless`}}",
     "http_directory": "http",
@@ -13,9 +13,9 @@
     "boot_command": [
       "S<enter><wait>",
       "dhclient vio0<enter><wait>",
-      "ftp -o install.conf http://{{.HTTPIP}}:{{.HTTPPort}}/openbsd-6.6/install.conf<enter><wait>",
-      "ftp -o install.sh http://{{.HTTPIP}}:{{.HTTPPort}}/openbsd-6.6/install.sh<enter><wait>",
-      "ftp -o install-chroot.sh http://{{.HTTPIP}}:{{.HTTPPort}}/openbsd-6.6/install-chroot.sh<enter><wait>",
+      "ftp -o install.conf http://{{.HTTPIP}}:{{.HTTPPort}}/openbsd-6.7/install.conf<enter><wait>",
+      "ftp -o install.sh http://{{.HTTPIP}}:{{.HTTPPort}}/openbsd-6.7/install.sh<enter><wait>",
+      "ftp -o install-chroot.sh http://{{.HTTPIP}}:{{.HTTPPort}}/openbsd-6.7/install-chroot.sh<enter><wait>",
       "ftp -o disklabel.conf http://{{.HTTPIP}}:{{.HTTPPort}}/openbsd/disklabel.conf<enter><wait>",
       "sh install.sh < install-chroot.sh && reboot<enter>"
     ],
@@ -30,11 +30,11 @@
   }, {
     "type": "virtualbox-iso",
     "guest_os_type": "OpenBSD_64",
-    "iso_url": "{{user `mirror`}}/6.6/amd64/install66.iso",
+    "iso_url": "{{user `mirror`}}/6.7/amd64/install67.iso",
     "iso_checksum": "{{user `iso_checksum`}}",
     "iso_checksum_type": "{{user `iso_checksum_type`}}",
-    "output_directory": "output-openbsd-6.6-amd64-{{build_type}}",
-    "vm_name": "packer-openbsd-6.6-amd64",
+    "output_directory": "output-openbsd-6.7-amd64-{{build_type}}",
+    "vm_name": "packer-openbsd-6.7-amd64",
     "hard_drive_interface": "ide",
     "disk_size": "{{user `disk_size`}}",
     "headless": "{{user `headless`}}",
@@ -43,9 +43,9 @@
     "boot_command": [
       "S<enter><wait>",
       "dhclient em0<enter><wait>",
-      "ftp -o install.conf http://{{.HTTPIP}}:{{.HTTPPort}}/openbsd-6.6/install.conf<enter><wait>",
-      "ftp -o install.sh http://{{.HTTPIP}}:{{.HTTPPort}}/openbsd-6.6/install.sh<enter><wait>",
-      "ftp -o install-chroot.sh http://{{.HTTPIP}}:{{.HTTPPort}}/openbsd-6.6/install-chroot.sh<enter><wait>",
+      "ftp -o install.conf http://{{.HTTPIP}}:{{.HTTPPort}}/openbsd-6.7/install.conf<enter><wait>",
+      "ftp -o install.sh http://{{.HTTPIP}}:{{.HTTPPort}}/openbsd-6.7/install.sh<enter><wait>",
+      "ftp -o install-chroot.sh http://{{.HTTPIP}}:{{.HTTPPort}}/openbsd-6.7/install-chroot.sh<enter><wait>",
       "ftp -o disklabel.conf http://{{.HTTPIP}}:{{.HTTPPort}}/openbsd/disklabel.conf<enter><wait>",
       "sh install.sh < install-chroot.sh && reboot<enter>"
     ],
@@ -62,11 +62,11 @@
   }, {
     "type": "vmware-iso",
     "guest_os_type": "freebsd-64",
-    "iso_url": "{{user `mirror`}}/6.6/amd64/install66.iso",
+    "iso_url": "{{user `mirror`}}/6.7/amd64/install67.iso",
     "iso_checksum": "{{user `iso_checksum`}}",
     "iso_checksum_type": "{{user `iso_checksum_type`}}",
-    "output_directory": "output-openbsd-6.6-amd64-{{build_type}}",
-    "vm_name": "packer-openbsd-6.6-amd64",
+    "output_directory": "output-openbsd-6.7-amd64-{{build_type}}",
+    "vm_name": "packer-openbsd-6.7-amd64",
     "disk_size": "{{user `disk_size`}}",
     "headless": "{{user `headless`}}",
     "http_directory": "http",
@@ -74,9 +74,9 @@
     "boot_command": [
       "S<enter><wait>",
       "dhclient em0<enter><wait>",
-      "ftp -o install.conf http://{{.HTTPIP}}:{{.HTTPPort}}/openbsd-6.6/install.conf<enter><wait>",
-      "ftp -o install.sh http://{{.HTTPIP}}:{{.HTTPPort}}/openbsd-6.6/install.sh<enter><wait>",
-      "ftp -o install-chroot.sh http://{{.HTTPIP}}:{{.HTTPPort}}/openbsd-6.6/install-chroot.sh<enter><wait>",
+      "ftp -o install.conf http://{{.HTTPIP}}:{{.HTTPPort}}/openbsd-6.7/install.conf<enter><wait>",
+      "ftp -o install.sh http://{{.HTTPIP}}:{{.HTTPPort}}/openbsd-6.7/install.sh<enter><wait>",
+      "ftp -o install-chroot.sh http://{{.HTTPIP}}:{{.HTTPPort}}/openbsd-6.7/install-chroot.sh<enter><wait>",
       "ftp -o disklabel.conf http://{{.HTTPIP}}:{{.HTTPPort}}/openbsd/disklabel.conf<enter><wait>",
       "sh install.sh < install-chroot.sh && reboot<enter>"
     ],
@@ -101,7 +101,7 @@
   "post-processors": [{
     "type": "vagrant",
     "compression_level": "{{user `compression_level`}}",
-    "output": "openbsd-6.6-amd64-{{.Provider}}.box",
+    "output": "openbsd-6.7-amd64-{{.Provider}}.box",
     "vagrantfile_template": "vagrantfile_templates/openbsd.rb"
   }],
   "variables": {
@@ -109,10 +109,10 @@
     "cpus": "2",
     "disk_size": "40000",
     "headless": "true",
-    "iso_checksum": "b22e63df56e6266de6bbeed8e9be0fbe9ee2291551c5bc03f3cc2e4ab9436ee3",
-    "iso_checksum_type": "none",
+    "iso_checksum": "097e0fd122fb792a070ad2836e762100d020c5c82da72fe25f3c7a1c844974f5",
+    "iso_checksum_type": "sha256",
     "memory": "512",
-    "mirror": "http://mirror.vdms.com/pub/OpenBSD",
+    "mirror": "http://cdn.openbsd.org/pub/OpenBSD",
     "ssh_timeout": "60m"
   }
 }

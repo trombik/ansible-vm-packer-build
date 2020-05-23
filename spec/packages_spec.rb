@@ -17,8 +17,15 @@ end
 
 case os[:family]
 when "freebsd"
-  describe package("virtualbox-ose-additions-nox11") do
-    it { should be_installed }
+  status = Specinfra.backend.run_command("sysctl dev.virtio_pci").exit_status
+  if status != 0
+    describe package("virtualbox-ose-additions-nox11") do
+      it { should be_installed }
+    end
+  end
+
+  describe file "/usr/local/etc/pkg/repos/local.conf" do
+    it { should_not exist }
   end
 when "openbsd"
   kern_version = Specinfra.backend.run_command("sysctl -n kern.version").stdout
