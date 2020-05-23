@@ -3,8 +3,8 @@ vagrant_cloud:
   username: trombik
 
 provider:
-  - virtualbox-iso
-  - qemu
+  - virtualbox
+  - libvirt
 box:
   - name: freebsd-11.3-amd64
     version: 20200416
@@ -20,3 +20,5 @@ box:
     version: 20200416
   - name: openbsd-6.6-amd64
     version: 20200416
+  - name: openbsd-6.7-amd64
+    version: 20200522
