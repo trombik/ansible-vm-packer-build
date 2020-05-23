@@ -53,7 +53,9 @@ namespace :build do
     available_builder_types = json["builders"].map { |i| i["type"] }
     desc "Build #{b} (builder types: #{available_builder_types.join(', ')})"
     task b.to_sym do
-      sh "packer build -only #{@config['provider'].map {|p| packer_builder(p) }.join(',').shellescape} #{json_file.shellescape}"
+      sh "packer build -only #{@config['provider'].map do |p|
+                                 packer_builder(p)
+                               end .join(',').shellescape} #{json_file.shellescape}"
     end
   end
 end
@@ -204,6 +206,7 @@ def ansible_version_in_vm(vm_name)
     end
   end
   raise "failed to find ansible version" if ansible_version.nil?
+
   ansible_version
 end
 
@@ -212,15 +215,14 @@ def publish_box(args)
     raise "missing argument: `#{attr}`" unless args[attr]
   end
   raise "file `#{args[:file]}` does not exist" unless File.exist?(args[:file])
-  Bundler.with_clean_env do
 
+  Bundler.with_clean_env do
     # vagrant cloud publish trombik/ansible-freebsd-12.1-amd64 20200514 libvirt freebsd-12.1-amd64-libvirt.box
     sh format("vagrant cloud publish %<name>s %<version>s %<provider>s %<file>s",
               name: args[:name],
               version: args[:version],
               provider: args[:provider],
-              file: args[:file]
-             )
+              file: args[:file])
   end
 end
 namespace :upload do
@@ -237,15 +239,15 @@ namespace :upload do
       task file do
         raise "file #{file} does not exist" unless File.exist?(file)
         raise "Token is not defined either in config.yml, or environment variable VAGRANT_CLOUD_TOKEN" unless token
+
         vagrant_hostname = box["name"].tr(".", "_") + "-#{provider}"
         ansible_version = ansible_version_in_vm(vagrant_hostname)
-        vagrant_cloud_box_name = "trombik/ansible-#{box['name']}"
+        vagrant_cloud_box_name = "#{username}/ansible-#{box['name']}"
         mtime = File.mtime(file)
         version = format("%<year>d%<month>02d%<day>02d",
                          year: mtime.year,
                          month: mtime.month,
-                         day: mtime.day
-                        )
+                         day: mtime.day)
         puts "Publishing a box"
         puts "file name: #{Rainbow(file).green}"
         puts "box name: #{Rainbow(box['name']).green}"
