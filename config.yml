@@ -13,7 +13,7 @@ box:
   - name: ubuntu-16.04-amd64
     version: 20200416
   - name: ubuntu-18.04-amd64
-    version: 20200416
+    version: 20200723
   - name: centos-7.4-x86_64
     version: 20200416
   - name: openbsd-6.5-amd64
