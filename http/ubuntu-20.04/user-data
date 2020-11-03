@@ -1,0 +1,40 @@
+#cloud-config
+#
+# https://medium.com/@tlhakhan/ubuntu-server-20-04-autoinstall-2e5f772b655a
+autoinstall:
+  version: 1
+  early-commands:
+    - systemctl stop ssh # otherwise packer tries to connect and exceed max attempts
+  apt:
+    geoip: true
+    preserve_sources_list: false
+    primary:
+    - arches: [amd64, i386]
+      uri: http://gb.archive.ubuntu.com/ubuntu
+    - arches: [default]
+      uri: http://ports.ubuntu.com/ubuntu-ports
+  identity:
+    hostname: ubuntu
+    username: vagrant
+    # openssl passwd -6
+    password: '$6$CnMlq4GrGnkpb45Y$C6IgIiaw1yQ4ks3i1lRUrZVnTAqxWZHyQo05I2VfcXhy6aiiLc8NJYm2x7./r9rhlxnnDcwdsf2I.lwAGQArG.'
+  network:
+    network:
+      version: 2
+      ethernets:
+        enp0s3:
+          dhcp4: yes
+          dhcp-identifier: mac
+  ssh:
+    allow-pw: true
+    install-server: true
+  locale: en_US
+  keyboard:
+    layout: us
+  late-commands:
+    - "echo 'Defaults:vagrant !requiretty' > /target/etc/sudoers.d/vagrant"
+    - "echo 'vagrant ALL=(ALL) NOPASSWD: ALL' >> /target/etc/sudoers.d/vagrant"
+    - "chmod 440 /target/etc/sudoers.d/vagrant"
+    # https://nickcharlton.net/posts/automating-ubuntu-2004-installs-with-packer.html
+    - sed -i 's/^#*\(send dhcp-client-identifier\).*$/\1 = hardware;/' /target/etc/dhcp/dhclient.conf
+    - 'sed -i "s/dhcp4: true/&\n      dhcp-identifier: mac/" /target/etc/netplan/00-installer-config.yaml'

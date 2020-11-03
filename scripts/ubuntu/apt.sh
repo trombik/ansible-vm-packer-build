@@ -12,20 +12,25 @@ fi
 # Disable periodic activities of apt, which causes `apt` tasks to fail by
 # holding a lock
 if [ "$ubuntu_version" != '14.04' ]; then
-  sudo tee -a /etc/apt/apt.conf.d/10disable-periodic <<EOF
+  sudo -S tee -a /etc/apt/apt.conf.d/10disable-periodic <<EOF
 APT::Periodic::Enable "0";
 EOF
 fi
 
 # Retry when fetching files fails
-sudo tee -a /etc/apt/apt.conf.d/10retry <<EOF
+sudo -S tee -a /etc/apt/apt.conf.d/10retry <<EOF
 Acquire::Retries "10";
 EOF
 
 sudo apt-get update
 
 # install the latest ansible from ppa
+
 sudo apt-get -y install software-properties-common
-sudo apt-add-repository ppa:ansible/ansible
+# XXX the ppa does not support 20.04
+# ==> virtualbox-iso: E: The repository 'http://ppa.launchpad.net/ansible/ansible/ubuntu focal Release' does not have a Release file.
+if [ "$ubuntu_version" != "20.04" ]; then
+    sudo apt-add-repository ppa:ansible/ansible
+fi
 sudo apt-get update
 sudo apt-get -y install python3 ansible rsync
