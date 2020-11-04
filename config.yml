@@ -6,18 +6,18 @@ provider:
   - virtualbox
   - libvirt
 box:
-  - name: freebsd-11.3-amd64
-    version: 20200416
+  - name: freebsd-11.4-amd64
+    version: 20201103
   - name: freebsd-12.1-amd64
-    version: 20200416
-  - name: ubuntu-16.04-amd64
-    version: 20200416
+    version: 20201103
+  - name: freebsd-12.2-amd64
+    version: 20201103
   - name: ubuntu-18.04-amd64
     version: 20200723
-  - name: centos-7.4-x86_64
-    version: 20200416
-  - name: openbsd-6.5-amd64
-    version: 20200416
+  - name: ubuntu-20.04-amd64
+    version: 20201103
+  - name: centos-7.8-x86_64
+    version: 20201103
   - name: openbsd-6.6-amd64
     version: 20200416
   - name: openbsd-6.7-amd64
