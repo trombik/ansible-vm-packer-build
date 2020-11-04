@@ -38,14 +38,7 @@ sudo rm -f /usr/local/etc/pkg/repos/local.conf
 # log "expr: illegal option" to stderr, which causes a failure in tests
 sudo ntpdate -b pool.ntp.org
 
-case `uname -r` in
-    10.3-*|11.1-*)
-        # XXX when EoLed, freebsd-update exits with zero
-        sudo freebsd-update --not-running-from-cron fetch || true
-        ;;
-    *)
-        sudo freebsd-update --not-running-from-cron fetch
-        ;;
-esac
-
+# when the release EoLed, or no update is available, freebsd-update exits with
+# non-zero status.
+sudo freebsd-update --not-running-from-cron fetch || true
 sudo freebsd-update --not-running-from-cron install
