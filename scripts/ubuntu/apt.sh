@@ -32,5 +32,16 @@ sudo apt-get -y install software-properties-common
 if [ "$ubuntu_version" != "20.04" ]; then
     sudo apt-add-repository ppa:ansible/ansible
 fi
+
 sudo apt-get update
 sudo apt-get -y install python3 ansible rsync
+
+# XXX remove snapd because it attempts to do something I don't (want to) know
+# in the background upon boot.
+if [ "${ubuntu_version}" == "20.04" ]; then
+    sudo snap remove lxd
+    sudo snap remove core18
+    sudo snap remove snapd
+    sudo rm -rf /var/cache/snapd
+    sudo apt-get -y purge snapd
+fi
