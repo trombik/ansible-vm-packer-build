@@ -16,4 +16,11 @@ when "ubuntu"
     it { should be_mode 644 }
     its(:content) { should match(/^Acquire::Retries\s+"10";/) }
   end
+
+  if os[:release].to_f >= 20.04
+    describe command("dpkg -l") do
+      its(:exit_status) { should eq 0 }
+      its(:stdout) { should_not match(/^\S+\s+snapd\s+/) }
+    end
+  end
 end
