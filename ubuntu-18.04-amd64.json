@@ -18,7 +18,7 @@
       "headless": "{{user `headless`}}",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
-      "iso_url": "http://cdimage.ubuntu.com/ubuntu/releases/18.04.5/release/ubuntu-18.04.5-server-amd64.iso",
+      "iso_url": "{{user `mirror`}}/releases/18.04.5/release/ubuntu-18.04.5-server-amd64.iso",
       "output_directory": "output-ubuntu-18.04-amd64-{{build_type}}",
       "qemuargs": [
         [
@@ -56,7 +56,7 @@
       "headless": "{{user `headless`}}",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
-      "iso_url": "{{user `mirror`}}/18.04/release/ubuntu-18.04.4-server-amd64.iso",
+      "iso_url": "{{user `mirror`}}/releases/18.04.5/release/ubuntu-18.04.5-server-amd64.iso",
       "output_directory": "output-ubuntu-18.04-amd64-{{build_type}}",
       "shutdown_command": "sudo systemctl poweroff",
       "ssh_password": "vagrant",
@@ -142,6 +142,7 @@
     "iso_checksum": "8c5fc24894394035402f66f3824beb7234b757dd2b5531379cb310cedfdf0996",
     "iso_checksum_type": "sha256",
     "memory": "512",
+    "mirror": "http://cdimage.ubuntu.com/ubuntu",
     "ssh_timeout": "60m"
   }
 }
