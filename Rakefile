@@ -30,7 +30,9 @@ def all_json_files
 end
 
 def all_json
-  all_json_files.map { |f| JSON.parse(File.read(f)) }
+  all_json_files.map do |f|
+    JSON.parse(File.read(f))
+  end
 end
 
 def request_head(uri, &block)

@@ -45,7 +45,7 @@
       "headless": "{{user `headless`}}",
       "http_directory": "http",
       "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
-      "iso_url": "http://mirror.cambo.host/centos/7.8.2003/isos/x86_64/CentOS-7-x86_64-NetInstall-2003.iso",
+      "iso_url": "{{user `mirror`}}/7.8.2003/isos/x86_64/CentOS-7-x86_64-NetInstall-2003.iso",
       "output_directory": "output-centos-7.8-x86_64-{{build_type}}",
       "shutdown_command": "sudo systemctl poweroff",
       "ssh_password": "vagrant",
@@ -100,6 +100,7 @@
     "iso_checksum": "101bc813d2af9ccf534d112cbe8670e6d900425b297d1a4d2529c5ad5f226372",
     "iso_checksum_type": "sha256",
     "memory": "512",
+    "mirror": "http://mirror.cambo.host/centos",
     "ssh_timeout": "60m"
   }
 }
