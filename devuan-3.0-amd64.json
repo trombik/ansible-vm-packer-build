@@ -1,0 +1,77 @@
+{
+  "builders": [
+    {
+      "boot_command": [
+        "<esc><wait>auto priority=critical preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/devuan-3.0/preseed.cfg <wait>",
+        "passwd/root-password={{user `root_password`}} <wait>",
+        "passwd/root-password-again={{user `root_password`}} <wait>",
+        "passwd/user-fullname={{user `vagrant_username`}} <wait>",
+        "passwd/username={{user `vagrant_username`}} <wait>",
+        "passwd/user-password={{user `vagrant_password`}} <wait>",
+        "passwd/user-password-again={{user `vagrant_password`}} <wait>",
+        "keymap=us <wait>",
+        "tasks=standard <wait>",
+        "choose-init/select_init=sysvinit<wait>",
+        "<enter><wait>"
+      ],
+      "boot_wait": "5s",
+      "disk_size": "{{user `disk_size`}}",
+      "guest_os_type": "Ubuntu_64",
+      "headless": "false",
+      "http_directory": "http",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_url": "{{user `mirror`}}/devuan_beowulf/installer-iso/devuan_beowulf_3.0.0_amd64-netinstall.iso",
+      "output_directory": "output-devuan-3.0-amd64-{{build_type}}",
+      "shutdown_command": "sudo /sbin/shutdown -h now",
+      "ssh_handshake_attempts": "200",
+      "ssh_password": "vagrant",
+      "ssh_timeout": "{{user `ssh_timeout`}}",
+      "ssh_username": "vagrant",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "{{user `memory`}}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "{{user `cpus`}}"
+        ]
+      ],
+      "vm_name": "packer-devuan-3.0-amd64"
+    }
+  ],
+  "post-processors": [
+    {
+      "compression_level": "{{user `compression_level`}}",
+      "output": "devuan-3.0-amd64-{{.Provider}}.box",
+      "type": "vagrant"
+    }
+  ],
+  "provisioners": [
+    {
+      "scripts": [
+        "scripts/ubuntu/apt.sh",
+        "scripts/ubuntu/virtualbox.sh",
+        "scripts/ubuntu/vmware.sh",
+        "scripts/common/vagrant.sh",
+        "scripts/common/sshd.sh",
+        "scripts/ubuntu/cleanup.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "compression_level": "6",
+    "cpus": "1",
+    "disk_size": "40000",
+    "iso_checksum": "5844e45dc6421c25dfc9fb25df9d57af8fadf12a97a2a4e0ae1931c4c3217523",
+    "memory": "1024",
+    "mirror": "https://mirror.leaseweb.com/devuan",
+    "ssh_timeout": "60m"
+  }
+}

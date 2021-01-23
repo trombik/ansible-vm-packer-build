@@ -23,18 +23,28 @@ Acquire::Retries "10";
 EOF
 
 sudo apt-get update
-
-# install the latest ansible from ppa
-
 sudo apt-get -y install software-properties-common
-# XXX the ppa does not support 20.04
-# ==> virtualbox-iso: E: The repository 'http://ppa.launchpad.net/ansible/ansible/ubuntu focal Release' does not have a Release file.
-if [ "$ubuntu_version" != "20.04" ]; then
-    sudo apt-add-repository ppa:ansible/ansible
+
+source /etc/os-release
+if [ "${NAME}" == "Devuan GNU/Linux" ]; then
+    # XXX this should work, but does not
+    # sudo apt-add-repository "deb http://deb.devuan.org/merged beowulf-backports main"
+    echo "deb http://deb.devuan.org/merged ${VERSION_CODENAME}-backports main" | sudo tee -a /etc/apt/sources.list
+else
+    # install the latest ansible from ppa
+    # XXX the ppa does not support 20.04
+    # ==> virtualbox-iso: E: The repository 'http://ppa.launchpad.net/ansible/ansible/ubuntu focal Release' does not have a Release file.
+    if [ "$ubuntu_version" != "20.04" ]; then
+        sudo apt-add-repository ppa:ansible/ansible || true
+    fi
 fi
 
 sudo apt-get update
-sudo apt-get -y install python3 ansible rsync
+if [ "${NAME}" == "Devuan GNU/Linux" ]; then
+    sudo apt-get -y -t ${VERSION_CODENAME}-backports install python3 ansible rsync
+else
+    sudo apt-get -y install python3 ansible rsync
+fi
 
 # XXX remove snapd because it attempts to do something I don't (want to) know
 # in the background upon boot.
