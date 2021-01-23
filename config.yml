@@ -13,12 +13,14 @@ box:
   - name: freebsd-12.2-amd64
     version: 20201103
   - name: ubuntu-18.04-amd64
-    version: 20200723
+    version: 20210123
   - name: ubuntu-20.04-amd64
-    version: 20201109
+    version: 20210123
   - name: centos-7.8-x86_64
     version: 20201103
   - name: openbsd-6.6-amd64
     version: 20200416
   - name: openbsd-6.7-amd64
     version: 20200522
+  - name: devuan-3.0-amd64
+    version: 20210122
