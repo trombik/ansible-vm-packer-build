@@ -1,0 +1,23 @@
+---
+name: Test ISO URLs
+on:
+  - pull_request
+  - push
+jobs:
+  iso_url:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup ruby
+        uses: actions/setup-ruby@v1
+
+      - name: Install bundler
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+
+      - name: Run iso_url target
+        run: |
+          bundle exec rake test:iso_url
