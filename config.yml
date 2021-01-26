@@ -18,9 +18,9 @@ box:
     version: 20210123
   - name: centos-7.8-x86_64
     version: 20210125
-  - name: openbsd-6.6-amd64
-    version: 20200416
   - name: openbsd-6.7-amd64
     version: 20200522
+  - name: openbsd-6.8-amd64
+    version: 20210125
   - name: devuan-3.0-amd64
     version: 20210122

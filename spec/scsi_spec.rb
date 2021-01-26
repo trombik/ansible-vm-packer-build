@@ -6,7 +6,8 @@ when "openbsd"
     its(:exit_status) { should eq 0 }
     its(:stderr) { should eq "" }
     its(:stdout) do
-      pending "SCSI causes disk stall on host OS"
+      # XXX commented out to see if the issue still exists
+      # pending "SCSI causes disk stall on host OS"
       should match(/^#{Regexp.escape("/dev/sd0")}/)
     end
   end
