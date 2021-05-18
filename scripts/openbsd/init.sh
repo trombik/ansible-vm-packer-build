@@ -3,19 +3,21 @@
 set -e
 set -x
 
-python_package="python%3.7"
+python_version="3.8"
 case `uname -r` in
     6.5)
-        python_package="python%3.6"
+        python_version="3.6"
+        ;;
+    6.8)
+        python_version="3.7"
         ;;
 esac
+python_package="python%${python_version}"
 
 sudo pkg_add ${python_package} ansible rsync-- curl
-if [ `uname -r` != 6.5 ]; then
-    sudo ln -sf /usr/local/bin/python3.7 /usr/local/bin/python
-    sudo ln -sf /usr/local/bin/python3.7-config /usr/local/bin/python-config
-    sudo ln -sf /usr/local/bin/pydoc3.7  /usr/local/bin/pydoc
-fi
+sudo ln -sf /usr/local/bin/python${python_version} /usr/local/bin/python
+sudo ln -sf /usr/local/bin/python${python_version}-config /usr/local/bin/python-config
+sudo ln -sf /usr/local/bin/pydoc${python_version}  /usr/local/bin/pydoc
 
 # install latest ansible on older versions
 case `uname -r` in
