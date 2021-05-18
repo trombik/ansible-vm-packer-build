@@ -42,9 +42,14 @@ if sysctl -n kern.version | head -n1 | grep -q -- -current ;then
     # syspatch is not available for -current
     :
 else
-    sudo syspatch
+    # $? == 2 means no patch available
+    if ! sudo syspatch && [ $? -ne 2 ]; then
+        exit $?
+    fi
     # run syspatch again. when syspatch has been updated, you need to run it
     # again.
     # "syspatch updated itself, run it again to install missing patches"
-    sudo syspatch
+    if ! sudo syspatch && [ $? -ne 2 ]; then
+        exit $?
+    fi
 fi
