@@ -10,9 +10,9 @@ GEM
       domain_name (~> 0.5)
     jaro_winkler (1.5.1)
     method_source (0.9.0)
-    mime-types (3.2.2)
+    mime-types (3.3.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2018.0812)
+    mime-types-data (3.2021.0225)
     multi_json (1.13.1)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -81,6 +81,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  mime-types (>= 3.3.1)
   pry
   rainbow
   rake
@@ -90,4 +91,4 @@ DEPENDENCIES
   vagrant_cloud
 
 BUNDLED WITH
-   2.0.2
+   2.2.16
