@@ -41,4 +41,6 @@ sudo ntpdate -b pool.ntp.org
 # when the release EoLed, or no update is available, freebsd-update exits with
 # non-zero status.
 sudo freebsd-update --not-running-from-cron fetch || true
-sudo freebsd-update --not-running-from-cron install
+if sudo freebsd-update --not-running-from-cron install && [ $? -ne 2 ]; then
+    exit $?
+fi
