@@ -8,10 +8,10 @@ provider:
 box:
   - name: freebsd-11.4-amd64
     version: 20201103
-  - name: freebsd-12.1-amd64
-    version: 20201103
   - name: freebsd-12.2-amd64
     version: 20201103
+  - name: freebsd-13.0-amd64
+    version: 20210519
   - name: ubuntu-18.04-amd64
     version: 20210123
   - name: ubuntu-20.04-amd64
