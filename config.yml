@@ -22,5 +22,5 @@ box:
     version: 20210125
   - name: openbsd-6.9-amd64
     version: 20210516
-  - name: devuan-3.0-amd64
-    version: 20210122
+  - name: devuan-3-amd64
+    version: 20210519
