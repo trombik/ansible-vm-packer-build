@@ -61,7 +61,7 @@
     "compression_level": "6",
     "cpus": "1",
     "disk_size": "40000",
-    "iso_checksum": "443511f6bf12402c12503733059269a2e10dec602916c0a75263e5d990f6bb93",
+    "iso_checksum": "d1f2bf834bbe9bb43faf16f9be992a6f3935e65be0edece1dee2aa6eb1767423",
     "memory": "1024",
     "mirror": "http://releases.ubuntu.com",
     "ssh_timeout": "60m"

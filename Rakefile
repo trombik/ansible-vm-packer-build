@@ -218,7 +218,7 @@ def publish_box(args)
   end
   raise "file `#{args[:file]}` does not exist" unless File.exist?(args[:file])
 
-  Bundler.with_clean_env do
+  Bundler.with_original_env do
     # vagrant cloud publish trombik/ansible-freebsd-12.1-amd64 20200514 libvirt freebsd-12.1-amd64-libvirt.box
     sh format("vagrant cloud publish %<name>s %<version>s %<provider>s %<file>s",
               name: args[:name],
