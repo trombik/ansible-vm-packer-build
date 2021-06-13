@@ -13,7 +13,7 @@ box:
   - name: freebsd-13.0-amd64
     version: 20210519
   - name: ubuntu-18.04-amd64
-    version: 20210123
+    version: 20210613
   - name: ubuntu-20.04-amd64
     version: 20210519
   - name: centos-7.8-x86_64
