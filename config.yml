@@ -15,7 +15,7 @@ box:
   - name: ubuntu-18.04-amd64
     version: 20210613
   - name: ubuntu-20.04-amd64
-    version: 20210519
+    version: 20210614
   - name: centos-7.8-x86_64
     version: 20210125
   - name: openbsd-6.8-amd64
